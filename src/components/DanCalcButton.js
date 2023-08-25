@@ -1,9 +1,9 @@
 import React from 'react'
 
-const DanCalcButton = (button) => {
+const DanCalcButton = ({buttonClass, buttonValue, buttonText}) => {
   return (
-    <button className={"DanCalc-" + button.className + "-button"}>
-        {button.text}
+    <button className={buttonClass} value={buttonValue}>
+        {buttonText}
     </button>
   )
 }
