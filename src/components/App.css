@@ -71,24 +71,30 @@ blockquote footer {
 .DanCalc-panel {
     width: 600px;
     margin: 0 auto;
-    background-color: #00dbdb;
-}
-
-.DanCalc-keyboard {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+    grid-template-areas:
+      "disp disp disp disp disp disp"
+      "clrAC    num7 num8 num9      opMult  opDiv"
+      "clrC     num4 num5 num6      opAdd   opSubt"
+      ".        num1 num2 num3      opAdd   opSubt"
+      ".        .    num0 .         opEqual opEqual"
+      ;
+    }
+
+.DanCalc-display {
+    grid-area: disp;
 }
 
 .DanCalc-ac-button {
     background-color: #FFaa00;
-    grid-column: 1;
-    grid-row: 1;
+    grid-area: clrAC;
 }
 
 .DanCalc-c-button {
     background-color: red;
-    grid-column: 1;
-    grid-row: 2;
+    grid-area: clrC;
 }
 
 .DanCalc-zero-button,
@@ -105,6 +111,17 @@ blockquote footer {
     background-color: green;
 }
 
+.DanCalc-zero-button {grid-area: num0;}
+.DanCalc-one-button {grid-area: num1;}
+.DanCalc-two-button {grid-area: num2;}
+.DanCalc-three-button {grid-area: num3;}
+.DanCalc-four-button {grid-area: num4;}
+.DanCalc-five-button {grid-area: num5;}
+.DanCalc-six-button {grid-area: num6;}
+.DanCalc-seven-button {grid-area: num7;}
+.DanCalc-eight-button {grid-area: num8;}
+.DanCalc-nine-button {grid-area: num9;}
+
 .DanCalc-add-button,
 .DanCalc-subtract-button,
 .DanCalc-multiply-button,
@@ -113,29 +130,13 @@ blockquote footer {
     background-color: black;
 }
 
-.DanCalc-multiply-button {
-    grid-column: -2;
-    grid-row: 1;
-}
-
-.DanCalc-divide-button {
-    grid-column: -1;
-    grid-row: 1;
-}
-
-.DanCalc-add-button {
-    grid-column: -2;
-    grid-row: 2 / span 2;
-}
-
-.DanCalc-subtract-button {
-    grid-column: -1;
-    grid-row: 2 / span 2;
-}
-
+.DanCalc-add-button {grid-area: opAdd;}
+.DanCalc-subtract-button {grid-area: opSubt;}
+.DanCalc-multiply-button {grid-area: opMult;}
+.DanCalc-divide-button {grid-area: opDiv;}
 .DanCalc-equal-button {
     background-color: navy;
-    grid-column-end: span 2;
+    grid-area: opEqual;
 }
 
 @media screen and (max-width: 600px) {
