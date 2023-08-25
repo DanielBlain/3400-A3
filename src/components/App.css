@@ -4,32 +4,32 @@
     min-height: 100vh;
     text-align: center;
     line-height: 1.6;
-  }
-  
-  .App-logo {
+}
+
+.App-logo {
     width: 100px;
     height: auto;
     pointer-events: none;
-  }
-  
-  .App-header {
+}
+
+.App-header {
     background-color: #333;
     color: white;
     text-align: center;
     padding: 2rem;
-  }
-  
-  .App-main {
+}
+
+.App-main {
     padding: 2rem;
     text-align: center;
     flex: 1;
-  }
-  
-  .App-link {
-    color: #61dafb;
-  }
+}
 
-  button {
+.App-link {
+    color: #61dafb;
+}
+
+button {
     background-color: #007bff;
     color: white;
     border: none;
@@ -37,40 +37,110 @@
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background-color: #0056b3;
-  }
-  
-  blockquote {
+}
+
+blockquote {
     background-color: #e6e6e6;
     border-left: 5px solid #007bff;
     padding: 10px;
     margin: 20px 0;
-  }
-  
-  blockquote p {
+}
+
+blockquote p {
     font-size: x-large;
     font-style: italic;
-  }
-  
-  blockquote footer {
+}
+
+blockquote footer {
     font-weight: bold;
     font-size: large;
     margin-top: 10px;
-  }
-  
-  .App-footer {
+}
+
+.App-footer {
     background-color: #333;
     color: white;
     text-align: center;
     padding: 1rem;
-  }
-  
-  @media screen and (max-width: 600px) {
+}
+
+.DanCalc-panel {
+    width: 600px;
+    margin: 0 auto;
+    background-color: #00dbdb;
+}
+
+.DanCalc-keyboard {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.DanCalc-ac-button {
+    background-color: #FFaa00;
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.DanCalc-c-button {
+    background-color: red;
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.DanCalc-zero-button,
+.DanCalc-one-button,
+.DanCalc-two-button,
+.DanCalc-three-button,
+.DanCalc-four-button,
+.DanCalc-five-button,
+.DanCalc-six-button,
+.DanCalc-seven-button,
+.DanCalc-eight-button,
+.DanCalc-nine-button
+{
+    background-color: green;
+}
+
+.DanCalc-add-button,
+.DanCalc-subtract-button,
+.DanCalc-multiply-button,
+.DanCalc-divide-button
+{
+    background-color: black;
+}
+
+.DanCalc-multiply-button {
+    grid-column: -2;
+    grid-row: 1;
+}
+
+.DanCalc-divide-button {
+    grid-column: -1;
+    grid-row: 1;
+}
+
+.DanCalc-add-button {
+    grid-column: -2;
+    grid-row: 2 / span 2;
+}
+
+.DanCalc-subtract-button {
+    grid-column: -1;
+    grid-row: 2 / span 2;
+}
+
+.DanCalc-equal-button {
+    background-color: navy;
+    grid-column-end: span 2;
+}
+
+@media screen and (max-width: 600px) {
     .App-header, .App-footer {
-      padding: 1rem;
+        padding: 1rem;
     }
-  }
+}
   
