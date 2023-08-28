@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Display = ({operatingState, displayState}) => {
+const Display = ({operatingState, storedOperator, displayState}) => {
     return (
         <div className='DanCalc-display'>
-            <p>{operatingState}</p>
+            <p>{operatingState} {storedOperator}</p>
             <p>{displayState}</p>
         </div>
     )
