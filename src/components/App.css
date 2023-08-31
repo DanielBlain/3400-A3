@@ -23,6 +23,7 @@
     padding: 2rem;
     text-align: center;
     flex: 1;
+    background-color: #777777;
 }
 
 .App-link {
@@ -68,6 +69,10 @@ blockquote footer {
     padding: 1rem;
 }
 
+.memoryEmpty {
+    visibility: hidden;
+}
+
 .DanCalc-panel {
     width: 600px;
     margin: 0 auto;
@@ -76,6 +81,7 @@ blockquote footer {
     grid-auto-rows: minmax(100px, auto);
     grid-template-areas:
       "disp disp disp disp disp disp"
+      ".    memS memC memR memP memM"
       "clrAC    num7 num8 num9      opMult  opDiv"
       "clrC     num4 num5 num6      opAdd   opSubt"
       ".        num1 num2 num3      opAdd   opSubt"
@@ -84,16 +90,40 @@ blockquote footer {
     }
 
 .DanCalc-display {
+    background-color: black;
+    color: green;
     grid-area: disp;
 }
 
+.DanCalc-display-status {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.DanCalc-ms-button,
+.DanCalc-mc-button,
+.DanCalc-mr-button,
+.DanCalc-m-plus-button,
+.DanCalc-m-minus-button {
+    background-color: #ffee00;
+    color: black;
+}
+.DanCalc-ms-button {grid-area: memS;}
+.DanCalc-mc-button {grid-area: memC;}
+.DanCalc-mr-button {grid-area: memR;}
+.DanCalc-m-plus-button {grid-area: memP;}
+.DanCalc-m-minus-button {grid-area: memM;}
+
 .DanCalc-ac-button {
-    background-color: #FFaa00;
+    background-color: #ff0000;
+    color: white;
     grid-area: clrAC;
 }
 
 .DanCalc-c-button {
-    background-color: red;
+    background-color: #cc0000;
+    color: white;
     grid-area: clrC;
 }
 
@@ -109,6 +139,7 @@ blockquote footer {
 .DanCalc-nine-button
 {
     background-color: green;
+    color: white;
 }
 
 .DanCalc-zero-button {grid-area: num0;}
@@ -127,15 +158,18 @@ blockquote footer {
 .DanCalc-multiply-button,
 .DanCalc-divide-button
 {
-    background-color: black;
+    background-color: #ee8800;
+    color: black;
 }
 
 .DanCalc-add-button {grid-area: opAdd;}
 .DanCalc-subtract-button {grid-area: opSubt;}
 .DanCalc-multiply-button {grid-area: opMult;}
 .DanCalc-divide-button {grid-area: opDiv;}
+
 .DanCalc-equal-button {
     background-color: navy;
+    color: white;
     grid-area: opEqual;
 }
 

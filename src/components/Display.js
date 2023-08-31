@@ -1,9 +1,12 @@
 import React from 'react'
 
-const Display = ({operatingState, storedOperator, displayState}) => {
+const Display = ({memoryState, operatingState, storedOperator, displayState}) => {
     return (
         <div className='DanCalc-display'>
-            <p>{operatingState} {storedOperator}</p>
+            <div className='DanCalc-display-status'>
+                <p className={memoryState === '0' ? 'memoryEmpty' : 'memoryFull'}>M</p>
+                <p>{operatingState} {storedOperator}</p>
+            </div>
             <p>{displayState}</p>
         </div>
     )
