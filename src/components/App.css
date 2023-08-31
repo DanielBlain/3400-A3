@@ -82,8 +82,8 @@ blockquote footer {
     grid-template-areas:
       "disp disp disp disp disp disp"
       ".    memS memC memR memP memM"
-      "clrAC    num7 num8 num9      opMult  opDiv"
-      "clrC     num4 num5 num6      opAdd   opSubt"
+      "clrAC    num7 num8 num9      opPerc  opSqrt"
+      "clrC     num4 num5 num6      opMult  opDiv"
       ".        num1 num2 num3      opAdd   opSubt"
       ".        sign num0 deci      opEqual opEqual"
       ;
@@ -165,6 +165,8 @@ blockquote footer {
 .DanCalc-eight-button {grid-area: num8;}
 .DanCalc-nine-button {grid-area: num9;}
 
+.DanCalc-percent-button,
+.DanCalc-square-root-button,
 .DanCalc-add-button,
 .DanCalc-subtract-button,
 .DanCalc-multiply-button,
@@ -174,6 +176,8 @@ blockquote footer {
     color: black;
 }
 
+.DanCalc-percent-button {grid-area: opPerc;}
+.DanCalc-square-root-button {grid-area: opSqrt;}
 .DanCalc-add-button {grid-area: opAdd;}
 .DanCalc-subtract-button {grid-area: opSubt;}
 .DanCalc-multiply-button {grid-area: opMult;}

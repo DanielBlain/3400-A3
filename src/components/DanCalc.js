@@ -63,8 +63,8 @@ const DanCalc = ({calculatorButtons}) => {
         setIsResultShown(false);
     }
 
-    function performCalculation() {
-        switch (storedOperator) {
+    function performCalculation(operation = storedOperator) {
+        switch (operation) {
             case 'Add':
                 setDisplayState('' + (Number(operatingState) + Number(displayState)));
                 break;
@@ -76,6 +76,12 @@ const DanCalc = ({calculatorButtons}) => {
                 break;
             case 'Divide':
                 setDisplayState('' + (Number(operatingState) / Number(displayState)));
+                break;
+            case 'Percent':
+                setDisplayState('' + (Number(displayState) / 100));
+                break;
+            case 'Square Root':
+                setDisplayState('' + (Math.sqrt(Number(displayState))));
                 break;
             default:
                 console.log("DanCalc - Unexpected operator");
@@ -91,10 +97,20 @@ const DanCalc = ({calculatorButtons}) => {
     }
 
     function applyOperator(operatorAsString) {
-        if (storedOperator !== '') {
-            performCalculation();
+        switch (operatorAsString) {
+            case 'Percent':
+                performCalculation('Percent');
+                break;
+            case 'Square Root':
+                performCalculation('Square Root');
+                break;
+            default:
+                if (storedOperator !== '') {
+                    performCalculation();
+                }
+                setStoredOperator(operatorAsString);
+                break;
         }
-        setStoredOperator(operatorAsString);
         setIsResultShown(true);
     }
 
