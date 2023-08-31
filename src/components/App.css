@@ -85,7 +85,7 @@ blockquote footer {
       "clrAC    num7 num8 num9      opMult  opDiv"
       "clrC     num4 num5 num6      opAdd   opSubt"
       ".        num1 num2 num3      opAdd   opSubt"
-      ".        .    num0 .         opEqual opEqual"
+      ".        sign num0 deci      opEqual opEqual"
       ;
     }
 
@@ -99,6 +99,18 @@ blockquote footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.DanCalc-sign-button {
+    background-color: blue;
+    color: white;
+    grid-area: sign;
+}
+
+.DanCalc-decimal-button {
+    background-color: blue;
+    color: white;
+    grid-area: deci;
 }
 
 .DanCalc-ms-button,

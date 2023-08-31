@@ -84,7 +84,15 @@ const DanCalc = ({calculatorButtons}) => {
     function applyEnter() {
         applyOperator('');
     }
-    
+
+    function applySign() {
+        setDisplayState('' + Number(displayState * -1));
+    }
+
+    function applyDecimal() {
+        setDisplayState(''  + Number(displayState) + '.');
+    }
+
 // clear, number, operator, enter
     return (
         <article className='DanCalc-panel'>
@@ -111,7 +119,11 @@ const DanCalc = ({calculatorButtons}) => {
                                 : (nextButton.type === 'operator')
                                     // If so, input the operator
                                     ? () => {applyOperator(nextButton.value)}
-                                    // Else the only possibility is the Enter key
+                                    // Else either the sign key, decimal key, or enter key was pressed; check for each
+                                    : (nextButton.type === 'sign')
+                                    ? () => {applySign()}
+                                    : (nextButton.type === 'decimal')
+                                    ? () => {applyDecimal()}
                                     : () => {applyEnter()}
                     }
                 />
