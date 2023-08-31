@@ -4,14 +4,15 @@ import Display from './Display';
 import DanCalcButton from './DanCalcButton';
 
 const DanCalc = ({calculatorButtons}) => {
-    const DISPLAY_WIDTH = 8;
     const [memoryState, setMemoryState] = useState('0');
     const [operatingState, setOperatingState] = useState('');
     const [storedOperator, setStoredOperator] = useState('');
     const [displayState, setDisplayState] = useState('0');
+    const [isResultShown, setIsResultShown] = useState(false);
 
     function Clear(isAllClear=false) {
         setDisplayState('0');
+        setIsResultShown(false);
         if (isAllClear) {
             setMemoryState('0');
             setOperatingState('');
@@ -25,6 +26,7 @@ const DanCalc = ({calculatorButtons}) => {
             case 'Memory Save':
                 setMemoryState(displayState);
                 setDisplayState('0');
+                setIsResultShown(false);
                 break;
             case 'Memory Clear':
                 setMemoryState('0');
@@ -32,14 +34,17 @@ const DanCalc = ({calculatorButtons}) => {
             case 'Memory Recall':
                 setDisplayState(memoryState);
                 setMemoryState('0');
+                setIsResultShown(true);
                 break;
             case 'Memory Addition':
                 setMemoryState('' + (Number(memoryState) + Number(displayState)));
                 setDisplayState('0');
+                setIsResultShown(false);
                 break;
             case 'Memory Subtract':
                 setMemoryState('' + (Number(memoryState) - Number(displayState)));
                 setDisplayState('0');
+                setIsResultShown(false);
                 break;
             default:
                 console.log("DanCalc - Unexpected memory state");
@@ -48,52 +53,61 @@ const DanCalc = ({calculatorButtons}) => {
     }
 
     function inputNumber(numberAsString) {
-        if (displayState.length < DISPLAY_WIDTH) {
-            setDisplayState(
-                ((displayState !== '0')? displayState:'')
-                + numberAsString
-            );
+        if (isResultShown && storedOperator!=='') {
+            setOperatingState(displayState);
         }
+        setDisplayState(
+            ((displayState === '0' || isResultShown)? '':displayState)
+            + numberAsString
+        )
+        setIsResultShown(false);
     }
 
-    function applyOperator(operatorAsString) {
+    function performCalculation() {
         switch (storedOperator) {
             case 'Add':
-                setOperatingState('' + (Number(operatingState) + Number(displayState)));
-                setDisplayState('0');
+                setDisplayState('' + (Number(operatingState) + Number(displayState)));
                 break;
             case 'Subtract':
-                setOperatingState('' + (Number(operatingState) - Number(displayState)));
-                setDisplayState('0');
+                setDisplayState('' + (Number(operatingState) - Number(displayState)));
                 break;
             case 'Multiply':
-                setOperatingState('' + (Number(operatingState) * Number(displayState)));
-                setDisplayState('0');
+                setDisplayState('' + (Number(operatingState) * Number(displayState)));
                 break;
-            case 'DivideZ':
-                setOperatingState('' + (Number(operatingState) / Number(displayState)));
-                setDisplayState('0');
+            case 'Divide':
+                setDisplayState('' + (Number(operatingState) / Number(displayState)));
                 break;
             default:
-                setOperatingState('' + (Number(displayState)));
+                console.log("DanCalc - Unexpected operator");
                 break;
         }
-        setStoredOperator(operatorAsString);
     }
 
     function applyEnter() {
-        applyOperator('');
+        performCalculation();
+        setOperatingState('');
+        setStoredOperator('');
+        setIsResultShown(true);
+    }
+
+    function applyOperator(operatorAsString) {
+        if (storedOperator !== '') {
+            performCalculation();
+        }
+        setStoredOperator(operatorAsString);
+        setIsResultShown(true);
     }
 
     function applySign() {
         setDisplayState('' + Number(displayState * -1));
+        setIsResultShown(false);
     }
 
     function applyDecimal() {
         setDisplayState(''  + Number(displayState) + '.');
+        setIsResultShown(false);
     }
 
-// clear, number, operator, enter
     return (
         <article className='DanCalc-panel'>
             <Display memoryState={memoryState} operatingState={operatingState} storedOperator={storedOperator} displayState={displayState} />
