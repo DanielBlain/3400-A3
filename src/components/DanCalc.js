@@ -111,6 +111,7 @@ const DanCalc = ({calculatorButtons}) => {
                 setStoredOperator(operatorAsString);
                 break;
         }
+        setOperatingState('');
         setIsResultShown(true);
     }
 
@@ -125,39 +126,51 @@ const DanCalc = ({calculatorButtons}) => {
     }
 
     return (
-        <article className='DanCalc-panel'>
-            <Display memoryState={memoryState} operatingState={operatingState} storedOperator={storedOperator} displayState={displayState} />
-            {calculatorButtons.map(nextButton => (
-                <DanCalcButton key={nextButton.value}
-                    buttonClass={'DanCalc-' + nextButton.className + '-button'}
-                    buttonValue={nextButton.value}
-                    buttonText={nextButton.text}
-                    clickFunc={
-                        // Is it All Clear or Clear?
-                        (nextButton.type === 'clear')
-                        // If so, apply the operation
-                        ? () => {Clear(nextButton.text === 'AC')}
-                        // Else: is it a memory operation?
-                        : (nextButton.type === 'memory')
-                            // If so, perform the memory operation
-                            ? () => {operateMemory(nextButton.value)}
-                            // Else: is it a number?
-                            : (nextButton.type === 'number')
-                                // If so, input the number
-                                ? () => {inputNumber(nextButton.value)}
-                                // Else: is it an operator?
-                                : (nextButton.type === 'operator')
-                                    // If so, input the operator
-                                    ? () => {applyOperator(nextButton.value)}
-                                    // Else either the sign key, decimal key, or enter key was pressed; check for each
-                                    : (nextButton.type === 'sign')
-                                    ? () => {applySign()}
-                                    : (nextButton.type === 'decimal')
-                                    ? () => {applyDecimal()}
-                                    : () => {applyEnter()}
+        <article className='DanCalc-component'>
+            <h2>
+                DanCalc v1.0
+            </h2>
+            <div className='DanCalc-panel'>
+                <Display
+                    memoryState={memoryState}
+                    operatingState={operatingState}
+                    storedOperator={
+                        // "storedOperator" is the value field in the calculator-buttons array. Find instead its button text
+                        (calculatorButtons.find(item => item.value === storedOperator) || {}).text
                     }
-                />
-            ))}
+                    displayState={displayState} />
+                {calculatorButtons.map(nextButton => (
+                    <DanCalcButton key={nextButton.value}
+                        buttonClass={'DanCalc-button DanCalc-' + nextButton.className + '-button'}
+                        buttonValue={nextButton.value}
+                        buttonText={nextButton.text}
+                        clickFunc={
+                            // Is it All Clear or Clear?
+                            (nextButton.type === 'clear')
+                            // If so, apply the operation
+                            ? () => {Clear(nextButton.text === 'AC')}
+                            // Else: is it a memory operation?
+                            : (nextButton.type === 'memory')
+                                // If so, perform the memory operation
+                                ? () => {operateMemory(nextButton.value)}
+                                // Else: is it a number?
+                                : (nextButton.type === 'number')
+                                    // If so, input the number
+                                    ? () => {inputNumber(nextButton.value)}
+                                    // Else: is it an operator?
+                                    : (nextButton.type === 'operator')
+                                        // If so, input the operator
+                                        ? () => {applyOperator(nextButton.value)}
+                                        // Else either the sign key, decimal key, or enter key was pressed; check for each
+                                        : (nextButton.type === 'sign')
+                                        ? () => {applySign()}
+                                        : (nextButton.type === 'decimal')
+                                        ? () => {applyDecimal()}
+                                        : () => {applyEnter()}
+                        }
+                    />
+                ))}
+            </div>
         </article>
     )
 }
