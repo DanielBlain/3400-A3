@@ -4,47 +4,74 @@ import Display from './Display';
 import DanCalcButton from './DanCalcButton';
 
 const DanCalc = ({calculatorButtons}) => {
-    const [memoryState, setMemoryState] = useState('0');
-    const [operatingState, setOperatingState] = useState('');
-    const [storedOperator, setStoredOperator] = useState('');
-    const [displayState, setDisplayState] = useState('0');
-    const [isResultShown, setIsResultShown] = useState(false);
+    const [memoryState, setMemoryState] = useState('0');        // The "long term" memory, controlled by the Memory buttons
+    const [operatingState, setOperatingState] = useState('');   // The "working" memory, shown above the main display
+    const [storedOperator, setStoredOperator] = useState('');   // The mathematical operator, shown in the working memory
+    const [displayState, setDisplayState] = useState('0');      // The main display, shows the currently input number or result
+    const [isDecimal, setIsDecimal] = useState(false);          // Whether the main display contains a decimal. If true, no 2nd decimal can be appended
 
     function Clear(isAllClear=false) {
+        if (displayState === '0') {
+            isAllClear = true;
+        }
         setDisplayState('0');
-        setIsResultShown(false);
+        setIsDecimal(false);
         if (isAllClear) {
             setMemoryState('0');
-            setOperatingState('');
+            setOperatingState('0');
             setStoredOperator('');
         }
+    }
+
+    function updateIsDecimal() {
+        setIsDecimal(displayState.includes('.'));
     }
 
     function operateMemory(opType) {
         console.log(opType);
         switch (opType) {
             case 'Memory Save':
-                setMemoryState(displayState);
-                setDisplayState('0');
-                setIsResultShown(false);
+                if (operatingState !== '' && displayState === '0') {
+                    setMemoryState(operatingState);
+                    setOperatingState('0');
+                    setStoredOperator('');
+                }
+                else {
+                    setMemoryState(displayState);
+                    setDisplayState('0');
+                    setIsDecimal(false);
+                }
                 break;
             case 'Memory Clear':
                 setMemoryState('0');
                 break;
             case 'Memory Recall':
                 setDisplayState(memoryState);
-                setMemoryState('0');
-                setIsResultShown(true);
+                updateIsDecimal();
                 break;
             case 'Memory Addition':
-                setMemoryState('' + (Number(memoryState) + Number(displayState)));
-                setDisplayState('0');
-                setIsResultShown(false);
+                if (operatingState !== '' && displayState === '0') {
+                    setMemoryState('' + (Number(memoryState) + Number(operatingState)));
+                    setOperatingState('0');
+                    setStoredOperator('');
+                }
+                else {
+                    setMemoryState('' + (Number(memoryState) + Number(displayState)));
+                    setDisplayState('0');
+                    setIsDecimal(false);
+                }
                 break;
             case 'Memory Subtract':
-                setMemoryState('' + (Number(memoryState) - Number(displayState)));
-                setDisplayState('0');
-                setIsResultShown(false);
+                if (operatingState !== '' && displayState === '0') {
+                    setMemoryState('' + (Number(memoryState) - Number(operatingState)));
+                    setOperatingState('0');
+                    setStoredOperator('');    
+                }
+                else {
+                    setMemoryState('' + (Number(memoryState) - Number(displayState)));
+                    setDisplayState('0');
+                    setIsDecimal(false);    
+                }
                 break;
             default:
                 console.log("DanCalc - Unexpected memory state");
@@ -53,47 +80,54 @@ const DanCalc = ({calculatorButtons}) => {
     }
 
     function inputNumber(numberAsString) {
-        if (isResultShown && storedOperator!=='') {
-            setOperatingState(displayState);
-        }
         setDisplayState(
-            ((displayState === '0' || isResultShown)? '':displayState)
+            ((displayState === '0') ? '' : displayState)
             + numberAsString
         )
-        setIsResultShown(false);
     }
 
     function performCalculation(operation = storedOperator) {
+        let opSuccess = true;
         switch (operation) {
             case 'Add':
-                setDisplayState('' + (Number(operatingState) + Number(displayState)));
+                setOperatingState('' + (Number(operatingState) + Number(displayState)));
                 break;
             case 'Subtract':
-                setDisplayState('' + (Number(operatingState) - Number(displayState)));
+                setOperatingState('' + (Number(operatingState) - Number(displayState)));
                 break;
             case 'Multiply':
-                setDisplayState('' + (Number(operatingState) * Number(displayState)));
+                setOperatingState('' + (Number(operatingState) * Number(displayState)));
                 break;
             case 'Divide':
-                setDisplayState('' + (Number(operatingState) / Number(displayState)));
+                setOperatingState('' + (Number(operatingState) / Number(displayState)));
                 break;
             case 'Percent':
-                setDisplayState('' + (Number(displayState) / 100));
+                setOperatingState('' + (Number(operatingState) / 100));
                 break;
             case 'Square Root':
-                setDisplayState('' + (Math.sqrt(Number(displayState))));
+                setOperatingState('' + (Math.sqrt(Number(operatingState))));
                 break;
             default:
+                opSuccess = false;
                 console.log("DanCalc - Unexpected operator");
                 break;
+        }
+        if (opSuccess) {
+            setDisplayState('0');
+            setStoredOperator('');
+            setIsDecimal(false);
         }
     }
 
     function applyEnter() {
-        performCalculation();
-        setOperatingState('');
-        setStoredOperator('');
-        setIsResultShown(true);
+        if (operatingState !== '') {
+            performCalculation();
+        }
+        else {
+            setOperatingState(displayState);
+        }
+        setDisplayState('0');
+        setIsDecimal(false);
     }
 
     function applyOperator(operatorAsString) {
@@ -108,21 +142,25 @@ const DanCalc = ({calculatorButtons}) => {
                 if (storedOperator !== '') {
                     performCalculation();
                 }
+                else if (displayState !== '0') {
+                    setOperatingState(displayState);
+                    setDisplayState('0');
+                    setIsDecimal(false);
+                }
                 setStoredOperator(operatorAsString);
                 break;
         }
-        setOperatingState('');
-        setIsResultShown(true);
     }
 
     function applySign() {
         setDisplayState('' + Number(displayState * -1));
-        setIsResultShown(false);
     }
 
     function applyDecimal() {
-        setDisplayState(''  + Number(displayState) + '.');
-        setIsResultShown(false);
+        if (!isDecimal) {
+            setDisplayState(''  + Number(displayState) + '.');
+            setIsDecimal(true);
+        }
     }
 
     return (
